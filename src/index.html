@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tiny Cats 🐱</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #1a0f07;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    canvas {
+      display: block;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      border: 3px solid #5c3a1e;
+      border-radius: 2px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+    }
+    #ui {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    #ui button {
+      background: #5c3a1e;
+      color: #f5deb3;
+      border: 2px solid #8b5e3c;
+      padding: 7px 16px;
+      cursor: pointer;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      transition: background 0.1s;
+    }
+    #ui button:hover { background: #7a4f2a; }
+    #ui button:disabled { opacity: 0.45; cursor: default; }
+    #info { color: #c8a870; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <canvas id="game" width="800" height="560"></canvas>
+  <div id="ui">
+    <button id="btn-add">고양이 추가 +</button>
+    <span id="info">로딩 중...</span>
+  </div>
+  <script type="module" src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+{
+  "_comment": "고양이 정적 정의 파일 — 런타임 상태는 state.json에서 관리",
+  "cats": [
+    {
+      "id": 1, "type": "Orange Tabby", "name_ko": "치즈 태비",
+      "sprite": { "row": 0, "frame_count": 6, "frames": { "idle": [0], "walk": [1,2,3,4], "interact": [5] }, "frame_duration_ms": 120 },
+      "audio": { "meow": "meow_high.mp3", "purr": "purr_soft.mp3" },
+      "stats": { "speed": 1.5, "energy": 90, "affection": 70 },
+      "traits": ["playful", "energetic"], "preferred_furniture": ["Cat Tree", "Window Perch"], "color_hint": "#E8811A"
+    },
+    {
+      "id": 2, "type": "Silver Tabby", "name_ko": "고등어 태비",
+      "sprite": { "row": 1, "frame_count": 6, "frames": { "idle": [0], "walk": [1,2,3,4], "interact": [5] }, "frame_duration_ms": 140 },
+      "audio": { "meow": "meow_mid.mp3", "purr": "purr_deep.mp3" },
+      "stats": { "speed": 1.2, "energy": 65, "affection": 80 },
+      "traits": ["curious", "calm"], "preferred_furniture": ["Cat Bed", "Bookshelf"], "color_hint": "#888888"
+    },
+    {
+      "id": 3, "type": "Tuxedo", "name_ko": "턱시도",
+      "sprite": { "row": 2, "frame_count": 6, "frames": { "idle": [0], "walk": [1,2,3,4], "interact": [5] }, "frame_duration_ms": 100 },
+      "audio": { "meow": "meow_low.mp3", "purr": "purr_rumble.mp3" },
+      "stats": { "speed": 1.8, "energy": 85, "affection": 50 },
+      "traits": ["shy", "fast"], "preferred_furniture": ["Cardboard Box", "Under Sofa"], "color_hint": "#1a1a1a"
+    },
+    {
+      "id": 4, "type": "Calico", "name_ko": "삼색이",
+      "sprite": { "row": 3, "frame_count": 6, "frames": { "idle": [0], "walk": [1,2,3,4], "interact": [5] }, "frame_duration_ms": 160 },
+      "audio": { "meow": "purr_meow.mp3", "purr": "purr_soft.mp3" },
+      "stats": { "speed": 1.0, "energy": 55, "affection": 95 },
+      "traits": ["affectionate", "slow"], "preferred_furniture": ["Cat Bed", "Lap (Player)"], "color_hint": "#E8811A"
+    },
+    {
+      "id": 5, "type": "Tortoiseshell", "name_ko": "카오스",
+      "sprite": { "row": 4, "frame_count": 6, "frames": { "idle": [0], "walk": [1,2,3,4], "interact": [5] }, "frame_duration_ms": 130 },
+      "audio": { "meow": "meow_mid.mp3", "purr": "purr_deep.mp3" },
+      "stats": { "speed": 1.3, "energy": 75, "affection": 60 },
+      "traits": ["unpredictable", "independent"], "preferred_furniture": ["Window Perch", "Cat Tree"], "color_hint": "#8B4513"
+    },
+    {
+      "id": 6, "type": "All Black", "name_ko": "올블랙",
+      "sprite": { "row": 5, "frame_count": 6, "frames": { "idle": [0], "walk": [1,2,3,4], "interact": [5] }, "frame_duration_ms": 110 },
+      "audio": { "meow": "meow_low.mp3", "purr": "purr_rumble.mp3" },
+      "stats": { "speed": 1.6, "energy": 80, "affection": 65 },
+      "traits": ["mysterious", "agile"], "preferred_furniture": ["Cardboard Box", "Dark Corner"], "color_hint": "#111111"
+    },
+    {
+      "id": 7, "type": "All White", "name_ko": "올화이트",
+      "sprite": { "row": 6, "frame_count": 6, "frames": { "idle": [0], "walk": [1,2,3,4], "interact": [5] }, "frame_duration_ms": 150 },
+      "audio": { "meow": "meow_high.mp3", "purr": "purr_soft.mp3" },
+      "stats": { "speed": 1.1, "energy": 60, "affection": 85 },
+      "traits": ["elegant", "gentle"], "preferred_furniture": ["Cat Bed", "Sunny Spot"], "color_hint": "#F5F5F5"
+    },
+    {
+      "id": 8, "type": "Siamese", "name_ko": "샴",
+      "sprite": { "row": 7, "frame_count": 6, "frames": { "idle": [0], "walk": [1,2,3,4], "interact": [5] }, "frame_duration_ms": 125 },
+      "audio": { "meow": "meow_siamese.mp3", "purr": "purr_soft.mp3" },
+      "stats": { "speed": 1.4, "energy": 88, "affection": 90 },
+      "traits": ["vocal", "social"], "preferred_furniture": ["Lap (Player)", "Window Perch"], "color_hint": "#C8A882"
+    },
+    {
+      "id": 9, "type": "Russian Blue", "name_ko": "러시안 블루",
+      "sprite": { "row": 8, "frame_count": 6, "frames": { "idle": [0], "walk": [1,2,3,4], "interact": [5] }, "frame_duration_ms": 145 },
+      "audio": { "meow": "meow_mid.mp3", "purr": "purr_deep.mp3" },
+      "stats": { "speed": 1.3, "energy": 70, "affection": 75 },
+      "traits": ["reserved", "loyal"], "preferred_furniture": ["Bookshelf", "Cat Tree"], "color_hint": "#7A8FA6"
+    },
+    {
+      "id": 10, "type": "Cream", "name_ko": "크림",
+      "sprite": { "row": 9, "frame_count": 6, "frames": { "idle": [0], "walk": [1,2,3,4], "interact": [5] }, "frame_duration_ms": 155 },
+      "audio": { "meow": "meow_high.mp3", "purr": "purr_soft.mp3" },
+      "stats": { "speed": 1.0, "energy": 58, "affection": 88 },
+      "traits": ["lazy", "sweet"], "preferred_furniture": ["Cat Bed", "Sunny Spot"], "color_hint": "#F5C890"
+    }
+  ]
+}

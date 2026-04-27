@@ -1,0 +1,32 @@
+{
+  "project_title": "Tiny Cat Pixel World Simulator",
+  "version": "0.1.0",
+  "pixel_style": {
+    "base_size": 64,
+    "scale": 2,
+    "background_color": "#FDF6E3",
+    "spritesheet": {
+      "path": "assets/sprites/all_cats_spritesheet.png",
+      "frame_width": 64,
+      "frame_height": 64,
+      "columns": 6,
+      "rows": 10
+    }
+  },
+  "world": {
+    "width": 800,
+    "height": 600,
+    "tile_size": 32,
+    "fps": 12
+  },
+  "audio": {
+    "base_path": "assets/sounds/",
+    "master_volume": 0.8,
+    "sfx_volume": 1.0
+  },
+  "gameplay": {
+    "max_cats_on_screen": 10,
+    "interaction_radius": 48,
+    "wander_interval_ms": 3000
+  }
+}

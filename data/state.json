@@ -1,0 +1,27 @@
+{
+  "_comment": "런타임 상태 파일 — 게임 저장/불러오기 대상. 매 틱마다 갱신됨",
+  "save_timestamp": "2026-04-24T00:00:00Z",
+  "player": { "level": 1, "coins": 500, "playtime_seconds": 0 },
+  "world": {
+    "active_cats": [1, 3],
+    "placed_furniture": [
+      { "instance_id": "fi_001", "furniture_id": "f01", "position": { "x": 100, "y": 150 }, "occupied_slots": [] },
+      { "instance_id": "fi_002", "furniture_id": "f02", "position": { "x": 400, "y": 300 }, "occupied_slots": [] },
+      { "instance_id": "fi_003", "furniture_id": "f05", "position": { "x": 250, "y": 400 }, "occupied_slots": [] }
+    ]
+  },
+  "cats_runtime": [
+    {
+      "cat_id": 1, "position": { "x": 120, "y": 200 }, "direction": "right",
+      "current_action": "walk", "current_frame": 1,
+      "target": { "type": "furniture", "instance_id": "fi_001" },
+      "hunger": 80, "happiness": 90, "energy": 85
+    },
+    {
+      "cat_id": 3, "position": { "x": 350, "y": 280 }, "direction": "left",
+      "current_action": "idle", "current_frame": 0,
+      "target": null,
+      "hunger": 60, "happiness": 70, "energy": 40
+    }
+  ]
+}

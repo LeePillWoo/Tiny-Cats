@@ -1,0 +1,85 @@
+{
+  "_comment": "가구 정적 정의 — 위치/점유 상태는 state.json에서 관리",
+  "furniture": [
+    {
+      "id": "f01", "file": "01_cat_tree_large",
+      "type": "Cat Tree", "name_ko": "캣타워",
+      "sprite": { "path": "assets/sprites/furniture/01_cat_tree_large.png", "renderW": 112, "renderH": 132 },
+      "interaction": {
+        "type": "climb", "max_cats": 2,
+        "slots": [
+          { "slot_id": 0, "offset": { "x":  5, "y": -118 }, "action": "sit" },
+          { "slot_id": 1, "offset": { "x":  5, "y":  -58 }, "action": "sit" }
+        ],
+        "allowed_traits": ["playful", "energetic", "agile", "curious"]
+      },
+      "unlock_level": 1
+    },
+    {
+      "id": "f02", "file": "02_plush_pet_bed_medium",
+      "type": "Plush Pet Bed", "name_ko": "방석",
+      "sprite": { "path": "assets/sprites/furniture/02_plush_pet_bed_medium.png", "renderW": 92, "renderH": 58 },
+      "interaction": {
+        "type": "sleep", "max_cats": 1,
+        "slots": [
+          { "slot_id": 0, "offset": { "x": 0, "y": -8 }, "action": "sleep" }
+        ],
+        "allowed_traits": ["lazy", "sweet", "calm", "gentle", "affectionate"]
+      },
+      "unlock_level": 1
+    },
+    {
+      "id": "f03", "file": "03_scratching_post_medium",
+      "type": "Scratching Post", "name_ko": "스크래처",
+      "sprite": { "path": "assets/sprites/furniture/03_scratching_post_medium.png", "renderW": 72, "renderH": 102 },
+      "interaction": {
+        "type": "scratch", "max_cats": 1,
+        "slots": [
+          { "slot_id": 0, "offset": { "x": 0, "y": -76 }, "action": "scratch" }
+        ],
+        "allowed_traits": ["playful", "energetic", "curious", "agile", "independent"]
+      },
+      "unlock_level": 1
+    },
+    {
+      "id": "f04", "file": "04_food_water_stand_small",
+      "type": "Food & Water Stand", "name_ko": "밥그릇",
+      "sprite": { "path": "assets/sprites/furniture/04_food_water_stand_small.png", "renderW": 80, "renderH": 44 },
+      "interaction": {
+        "type": "eat", "max_cats": 1,
+        "slots": [
+          { "slot_id": 0, "offset": { "x": 0, "y": 2 }, "action": "eat" }
+        ],
+        "allowed_traits": null
+      },
+      "unlock_level": 1
+    },
+    {
+      "id": "f05", "file": "05_cat_house_medium",
+      "type": "Cat House", "name_ko": "고양이집",
+      "sprite": { "path": "assets/sprites/furniture/05_cat_house_medium.png", "renderW": 96, "renderH": 96 },
+      "interaction": {
+        "type": "hide", "max_cats": 1,
+        "slots": [
+          { "slot_id": 0, "offset": { "x": 2, "y": -8 }, "action": "hide" }
+        ],
+        "allowed_traits": ["shy", "mysterious", "independent", "reserved"]
+      },
+      "unlock_level": 1
+    },
+    {
+      "id": "f06", "file": "06_armchair_large",
+      "type": "Armchair", "name_ko": "안락의자",
+      "sprite": { "path": "assets/sprites/furniture/06_armchair_large.png", "renderW": 112, "renderH": 102 },
+      "interaction": {
+        "type": "sit", "max_cats": 2,
+        "slots": [
+          { "slot_id": 0, "offset": { "x": -24, "y": -58 }, "action": "sit" },
+          { "slot_id": 1, "offset": { "x":  24, "y": -58 }, "action": "sit" }
+        ],
+        "allowed_traits": ["elegant", "gentle", "calm", "loyal", "social", "vocal", "affectionate"]
+      },
+      "unlock_level": 2
+    }
+  ]
+}
