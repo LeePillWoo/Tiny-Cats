@@ -105,11 +105,11 @@ export class Renderer {
     ctx.stroke();
   }
 
-  // ─── Scene objects (depth-sorted by Y) ─────────────────────────
+  // ─── Scene objects (depth-sorted by Y; dragged cat always on top) ─
   _drawScene(world) {
     const items = [
       ...world.furniture.map(f => ({ type: 'furniture', obj: f, sortY: f.y })),
-      ...world.cats.map(c =>      ({ type: 'cat',       obj: c, sortY: c.y })),
+      ...world.cats.map(c =>      ({ type: 'cat',       obj: c, sortY: c.dragging ? Infinity : c.y })),
     ].sort((a, b) => a.sortY - b.sortY);
 
     for (const item of items) {
@@ -145,6 +145,16 @@ export class Renderer {
     const size = cat.renderSize;
     const tf   = cat.getTransform();
     const dx   = tf.dx ?? 0;
+
+    // Drop shadow when dragging (gives a "lifted" feel)
+    if (cat.dragging) {
+      ctx.save();
+      ctx.fillStyle = 'rgba(0,0,0,0.18)';
+      ctx.beginPath();
+      ctx.ellipse(Math.round(cat.x), Math.round(cat.y + 10), 28, 8, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
 
     ctx.save();
     ctx.translate(Math.round(cat.x + dx), Math.round(cat.y + (tf.dy ?? 0)));

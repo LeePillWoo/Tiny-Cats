@@ -1,5 +1,6 @@
 import { rand, clamp } from './utils.js';
 
+
 export const State = {
   IDLE:    'idle',
   WALK:    'walk',
@@ -68,14 +69,40 @@ export class Cat {
 
     // Floating text particles { x, y, vy, text, life, maxLife, alpha, scale }
     this.particles = [];
+
+    this.dragging       = false;
+    this.sound          = null;
+    this._soundTimer    = rand(3000, 8000);
+    this._nextSoundTime = rand(10000, 22000);
   }
 
   get renderSize() { return 80; }
 
   // ─── Main update ───────────────────────────────────────────────
   update(dt, world) {
-    this.animTime   += dt / 1000;
+    this.animTime += dt / 1000;
+
+    // While being held, only animate — skip all AI
+    if (this.dragging) {
+      this._updateParticles(dt);
+      return;
+    }
+
     this.stateTimer += dt;
+
+    // Random ambient sounds
+    this._soundTimer += dt;
+    if (this._soundTimer >= this._nextSoundTime) {
+      this._soundTimer    = 0;
+      this._nextSoundTime = rand(10000, 22000);
+      if (this.sound) {
+        if (this.state === State.IDLE || this.state === State.SIT || this.state === State.GROOM) {
+          if (Math.random() < 0.55) this.sound.play(this.id, 'idle');
+        } else if (this.state === State.SLEEP) {
+          this.sound.play(this.id, 'sleep');
+        }
+      }
+    }
 
     this.hunger = Math.max(0, this.hunger - dt * 0.0025);
     this.energy = Math.max(0, this.energy - dt * (this.state === State.SLEEP ? -0.008 : 0.0008));
@@ -278,11 +305,38 @@ export class Cat {
     this._setState(run ? State.RUN : State.WALK, 14000);
   }
 
+  // ─── Drag handling ─────────────────────────────────────────────
+  startDrag(world) {
+    this._releaseFurniture();
+    if (this.interactionPartner) {
+      this.interactionPartner.interactionPartner = null;
+      this.interactionPartner._decide(world);
+    }
+    this.interactionPartner = null;
+    this.dragging           = true;
+    this.state              = State.IDLE;
+    this.stateTimer         = 0;
+  }
+
+  endDrag(world) {
+    this.dragging  = false;
+    this.targetX   = this.x;
+    this.targetY   = this.y;
+    this._decide(world);
+  }
+
   // ─── State setter ──────────────────────────────────────────────
   _setState(state, duration) {
+    const prev     = this.state;
     this.state         = state;
     this.stateTimer    = 0;
     this.stateDuration = duration;
+
+    if (this.sound && !this.dragging) {
+      if      (state === State.PLAY  && prev !== State.PLAY)  this.sound.play(this.id, 'play');
+      else if (state === State.FIGHT && prev !== State.FIGHT) this.sound.play(this.id, 'fight');
+      else if (state === State.EAT   && prev !== State.EAT)   this.sound.play(this.id, 'eat');
+    }
   }
 
   // ─── Particles ─────────────────────────────────────────────────
@@ -317,6 +371,9 @@ export class Cat {
   // Returns { scaleX, scaleY, dy, rot, dx } for the renderer to apply
   getTransform() {
     const t = this.animTime;
+    if (this.dragging) {
+      return { sx: 1.08, sy: 1.08, dy: -14 + 3 * Math.sin(t * 3), rot: 0.07 * Math.sin(t * 2.2) };
+    }
     switch (this.state) {
       case State.IDLE:
         return { sx: 1, sy: 1 + 0.016 * Math.sin(t * 1.6), dy: 0, rot: 0 };

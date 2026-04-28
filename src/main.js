@@ -2,6 +2,8 @@ import { Cat }                    from './Cat.js';
 import { Furniture, FURNITURE_META } from './Furniture.js';
 import { World }                  from './World.js';
 import { Renderer }               from './Renderer.js';
+import { SoundManager }           from './Sound.js';
+import { clamp }                  from './utils.js';
 
 const W = 800, H = 560;
 
@@ -45,6 +47,7 @@ async function main() {
 
   const renderer = new Renderer(canvas);
   const world    = new World(W, H);
+  const sound    = new SoundManager();
 
   // ── Load assets in parallel ──────────────────────────────────
   infoEl.textContent = '리소스 로딩 중...';
@@ -92,6 +95,7 @@ async function main() {
 
   btnAdd.addEventListener('click', () => {
     if (world.cats.length >= 10) return;
+    sound._ensureCtx();
     const id = remainingIds[nextIdx++ % remainingIds.length];
     spawnCat(id);
     updateInfo();
@@ -99,6 +103,101 @@ async function main() {
   });
 
   updateInfo();
+
+  // ── Drag & drop ──────────────────────────────────────────────
+  let draggedCat = null;
+  let dragOX = 0;
+  let dragOY = 0;
+
+  function getCanvasPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      cx: (e.clientX - rect.left) * (W / rect.width),
+      cy: (e.clientY - rect.top)  * (H / rect.height),
+    };
+  }
+
+  function findCatAt(cx, cy) {
+    let best = null;
+    let bestY = -Infinity;
+    for (const cat of world.cats) {
+      const dx = cx - cat.x;
+      const dy = cy - (cat.y - 40);
+      if (Math.hypot(dx, dy) < 40 && cat.y > bestY) {
+        best  = cat;
+        bestY = cat.y;
+      }
+    }
+    return best;
+  }
+
+  canvas.addEventListener('mousedown', e => {
+    const { cx, cy } = getCanvasPos(e);
+    const cat = findCatAt(cx, cy);
+    if (!cat) return;
+    e.preventDefault();
+    sound._ensureCtx();
+    draggedCat = cat;
+    dragOX = cat.x - cx;
+    dragOY = cat.y - cy;
+    cat.startDrag(world);
+    sound.play(cat.id, 'pickup');
+    canvas.style.cursor = 'grabbing';
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (draggedCat) {
+      const { cx, cy } = getCanvasPos(e);
+      draggedCat.x = clamp(cx + dragOX, 30, W - 30);
+      draggedCat.y = clamp(cy + dragOY, world.floorY + 20, H - 10);
+      draggedCat.targetX = draggedCat.x;
+      draggedCat.targetY = draggedCat.y;
+    } else {
+      const { cx, cy } = getCanvasPos(e);
+      canvas.style.cursor = findCatAt(cx, cy) ? 'grab' : 'default';
+    }
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (!draggedCat) return;
+    draggedCat.endDrag(world);
+    sound.play(draggedCat.id, 'drop');
+    draggedCat = null;
+    canvas.style.cursor = 'default';
+  });
+
+  // Touch support
+  canvas.addEventListener('touchstart', e => {
+    e.preventDefault();
+    const t = e.touches[0];
+    const { cx, cy } = getCanvasPos(t);
+    const cat = findCatAt(cx, cy);
+    if (!cat) return;
+    sound._ensureCtx();
+    draggedCat = cat;
+    dragOX = cat.x - cx;
+    dragOY = cat.y - cy;
+    cat.startDrag(world);
+    sound.play(cat.id, 'pickup');
+  }, { passive: false });
+
+  document.addEventListener('touchmove', e => {
+    if (!draggedCat) return;
+    e.preventDefault();
+    const t = e.touches[0];
+    const { cx, cy } = getCanvasPos(t);
+    draggedCat.x = clamp(cx + dragOX, 30, W - 30);
+    draggedCat.y = clamp(cy + dragOY, world.floorY + 20, H - 10);
+    draggedCat.targetX = draggedCat.x;
+    draggedCat.targetY = draggedCat.y;
+  }, { passive: false });
+
+  document.addEventListener('touchend', () => {
+    if (!draggedCat) return;
+    draggedCat.endDrag(world);
+    sound.play(draggedCat.id, 'drop');
+    draggedCat = null;
+  });
 
   // ── Game loop ────────────────────────────────────────────────
   let lastTime = 0;
@@ -116,7 +215,9 @@ async function main() {
     const data = catsJson.cats.find(c => c.id === id);
     const x    = 120 + Math.random() * 560;
     const y    = world.floorY + 50 + Math.random() * 260;
-    world.addCat(new Cat(data, x, y, catImageMap[id]));
+    const cat  = new Cat(data, x, y, catImageMap[id]);
+    cat.sound  = sound;
+    world.addCat(cat);
   }
 
   function updateInfo() {
