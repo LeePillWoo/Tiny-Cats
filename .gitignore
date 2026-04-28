@@ -6,6 +6,9 @@ Thumbs.db
 .vscode/
 *.code-workspace
 
+# Claude Code local settings
+.claude/
+
 # Node (혹시 나중에 빌드툴 쓸 때)
 node_modules/
 dist/

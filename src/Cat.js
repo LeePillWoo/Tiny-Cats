@@ -47,7 +47,8 @@ export class Cat {
     this.y = y;
     this.targetX = x;
     this.targetY = y;
-    this.facing = Math.random() < 0.5 ? 1 : -1;
+    this.facing  = Math.random() < 0.5 ? 1 : -1;
+    this.dirAngle = 0;   // movement tilt angle (radians from horizontal)
 
     this.state         = State.IDLE;
     this.stateTimer    = 0;
@@ -78,6 +79,11 @@ export class Cat {
 
     this.hunger = Math.max(0, this.hunger - dt * 0.0025);
     this.energy = Math.max(0, this.energy - dt * (this.state === State.SLEEP ? -0.008 : 0.0008));
+
+    // Smoothly reset movement tilt when not walking/running
+    if (this.state !== State.WALK && this.state !== State.RUN) {
+      this.dirAngle *= (1 - Math.min(1, dt * 0.005));
+    }
 
     this._updateParticles(dt);
     this._spawnParticles(dt);
@@ -112,7 +118,8 @@ export class Cat {
       const step = Math.min(spd, dist);
       this.x += (dx / dist) * step;
       this.y += (dy / dist) * step;
-      this.facing = dx > 0 ? 1 : -1;
+      this.facing   = dx > 0 ? 1 : -1;
+      this.dirAngle = Math.atan2(dy, Math.abs(dx));   // tilt toward movement direction
     }
     // Safety: if walking forever, give up
     if (this.stateTimer > 14000) this._decide(world);
@@ -151,7 +158,7 @@ export class Cat {
     const dx   = partner.x - this.x;
     const dist = Math.abs(dx);
     const spd  = 28 * dt / 1000;
-    if (dist > 62)      { this.x += Math.sign(dx) * spd; this.facing = Math.sign(dx); }
+    if (dist > 62)      { this.x += Math.sign(dx) * spd; if (dx !== 0) this.facing = Math.sign(dx); }
     else if (dist < 36) { this.x -= Math.sign(dx) * spd; }
   }
 
@@ -314,9 +321,9 @@ export class Cat {
       case State.IDLE:
         return { sx: 1, sy: 1 + 0.016 * Math.sin(t * 1.6), dy: 0, rot: 0 };
       case State.WALK:
-        return { sx: 1, sy: 1, dy: -3 * Math.abs(Math.sin(t * 6.5)), rot: 0 };
+        return { sx: 1, sy: 1, dy: -3 * Math.abs(Math.sin(t * 6.5)), rot: this.dirAngle * 0.30 };
       case State.RUN:
-        return { sx: 1, sy: 1, dy: -5 * Math.abs(Math.sin(t * 11)), rot: 0.07 * Math.sin(t * 11) };
+        return { sx: 1, sy: 1, dy: -5 * Math.abs(Math.sin(t * 11)), rot: this.dirAngle * 0.30 + 0.07 * Math.sin(t * 11) };
       case State.GROOM:
         return { sx: 1 + 0.06 * Math.abs(Math.sin(t * 3)), sy: 1, dy: 0, rot: 0.14 * Math.sin(t * 2.8) };
       case State.STRETCH:

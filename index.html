@@ -13,7 +13,9 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
+      padding: 8px;
       font-family: 'Segoe UI', sans-serif;
+      overflow-x: hidden;
     }
     canvas {
       display: block;
@@ -22,12 +24,17 @@
       border: 3px solid #5c3a1e;
       border-radius: 2px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+      width: min(800px, calc(100vw - 16px));
+      aspect-ratio: 800 / 560;
     }
     #ui {
       margin-top: 10px;
       display: flex;
       align-items: center;
-      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      width: min(800px, calc(100vw - 16px));
     }
     #ui button {
       background: #5c3a1e;
@@ -42,6 +49,10 @@
     #ui button:hover { background: #7a4f2a; }
     #ui button:disabled { opacity: 0.45; cursor: default; }
     #info { color: #c8a870; font-size: 13px; }
+    @media (max-width: 480px) {
+      #ui button { padding: 6px 12px; font-size: 12px; }
+      #info { font-size: 12px; }
+    }
   </style>
 </head>
 <body>
@@ -50,6 +61,6 @@
     <button id="btn-add">고양이 추가 +</button>
     <span id="info">로딩 중...</span>
   </div>
-  <script type="module" src="main.js"></script>
+  <script type="module" src="src/main.js"></script>
 </body>
 </html>

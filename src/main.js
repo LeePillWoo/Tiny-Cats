@@ -50,17 +50,17 @@ async function main() {
   infoEl.textContent = '리소스 로딩 중...';
 
   const [catsJson, catImgs, furniImgs] = await Promise.all([
-    fetch('../data/cats.json').then(r => r.json()),
+    fetch('data/cats.json').then(r => r.json()),
 
     Promise.all(
       CAT_FILES.map(name =>
-        loadImage(`../assets/sprites/cats/${name}.png`)
+        loadImage(`assets/sprites/cats/${name}.png`)
       )
     ),
 
     Promise.all(
       Object.keys(FURNITURE_META).map(key =>
-        loadImage(`../assets/sprites/furniture/${key}.png`)
+        loadImage(`assets/sprites/furniture/${key}.png`)
       )
     ),
   ]);
